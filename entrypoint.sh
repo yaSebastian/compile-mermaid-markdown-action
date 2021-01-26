@@ -80,9 +80,9 @@ function is_path_markdown {
 # $2 - the output location
 function c_mermaid {
   # longer version: if [[ -n $files ]]; then files="$files\n"; fi
-  [[ -n $out_files_all ]] && out_files_all='$out_files_all\n'
+  [[ -n $out_files_all ]] && out_files_all='$out_files_all\n${2}'
   if [[ ! -f ${2} ]]; then
-    [[ -n $out_files_new ]] && out_files_new='$out_files_new\n'
+    [[ -n $out_files_new ]] && out_files_new='$out_files_new\n${2}'
   fi
 
   printf "Compiling: %s\n" "${1}"
