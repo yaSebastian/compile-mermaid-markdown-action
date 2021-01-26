@@ -26,7 +26,10 @@ function main {
   printf "Got output path: %s\n" "${outpath}"
 
   shift $(( OPTIND - 1 ))
-
+  
+  declare out_files_new=""
+  declare out_files_all=""
+  
   for in_file in "$@"; do
     if [[ -f "${in_file}" ]]; then
       printf "Attempting compile of: %s\n" "${in_file}"
@@ -53,6 +56,9 @@ function main {
       fi
     fi
   done
+  
+  echo "::set-output name=new-files::$out_files_new"
+  echo "::set-output name=all-files::$out_files_all"
 }
 
 
@@ -73,6 +79,14 @@ function is_path_markdown {
 # $1 - the file to compile
 # $2 - the output location
 function c_mermaid {
+  # longer version: if [[ -n $files ]]; then files="$files\n"; fi
+  [[ -n $out_files_all ]] && out_files_all="$out_files_all\n"
+  out_files_all="$out_files_all${2}"
+  if [[ ! -f ${2} ]]; then
+    [[ -n $out_files_new ]] && out_files_new="$out_files_new\n"
+    out_files_new="$out_files_new${2}"
+  fi
+
   printf "Compiling: %s\n" "${1}"
   printf "Output to: %s\n" "${2}"
   /node_modules/.bin/mmdc -p /mmdc/puppeteer-config.json -i "${1}" -o "${2}"
