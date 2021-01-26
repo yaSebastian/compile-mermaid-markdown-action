@@ -27,8 +27,8 @@ function main {
 
   shift $(( OPTIND - 1 ))
   
-  declare out_files_new=""
-  declare out_files_all=""
+  declare -a out_files_new=()
+  declare -a out_files_all=()
   
   for in_file in "$@"; do
     if [[ -f "${in_file}" ]]; then
@@ -80,11 +80,11 @@ function is_path_markdown {
 # $2 - the output location
 function c_mermaid {
   # longer version: if [[ -n $files ]]; then files="$files\n"; fi
-  [[ -n $out_files_all ]] && out_files_all="$out_files_all\n"
-  out_files_all="$out_files_all${2}"
+  # [[ -n $out_files_all ]] && out_files_all="$out_files_all\n"
+  out_files_all+=("${2}")
   if [[ ! -f ${2} ]]; then
-    [[ -n $out_files_new ]] && out_files_new="$out_files_new\n"
-    out_files_new="$out_files_new${2}"
+    # [[ -n $out_files_new ]] && out_files_new="$out_files_new\n"
+    out_files_new+=("${2}")
   fi
 
   printf "Compiling: %s\n" "${1}"
