@@ -5,11 +5,16 @@ branding:
   color: 'green'
 inputs:
   files:
-    description: 'the path to the files to compile'
+    description: 'The path to the files to compile'
     required: true
   output:
     description: 'Where to output the file - std otherwise'
     required: true
+outputs:
+  all-files:
+    description: 'All Mermaid diagrams compiled to .png'
+  new-files:
+    description: 'Mermaid diagrams compiled to .png, limited the files that did not yet exist'
 runs:
   using: 'docker'
   image: 'Dockerfile'
